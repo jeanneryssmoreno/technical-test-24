@@ -22,7 +22,7 @@ import { FavoritesService } from '../../core/services/favorites.service';
         <button 
           type="button"
           (click)="onFavorite($event)"
-          class="absolute top-2 md:top-3 right-2 md:right-3 p-1.5 md:p-2 bg-surface/90 backdrop-blur-sm rounded-full text-on-surface md:opacity-100 opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-error hover:text-white z-10"
+          class="absolute top-2 md:top-3 right-2 md:right-3 p-1.5 md:p-2 bg-surface/90 backdrop-blur-sm rounded-full text-on-surface transition-all duration-300 hover:bg-error hover:text-white z-10"
           [class.text-error]="isFavorite()"
           [class.bg-error/10]="isFavorite()"
           aria-label="Toggle favorite"
@@ -33,7 +33,7 @@ import { FavoritesService } from '../../core/services/favorites.service';
           <button 
             type="button"
             (click)="onAddToCart($event)"
-            class="w-full bg-secondary/95 backdrop-blur-md text-on-secondary font-bold text-xs md:text-sm tracking-wider uppercase py-2 md:py-2.5 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 hover:bg-secondary z-10"
+            class="w-full bg-secondary/95 backdrop-blur-md text-on-secondary font-bold text-xs md:text-sm tracking-wider uppercase py-2 md:py-2.5 rounded-lg md:opacity-0 md:group-hover:opacity-100 transition-all duration-300 md:transform md:translate-y-2 md:group-hover:translate-y-0 hover:bg-secondary pointer-events-none md:pointer-events-auto z-10"
             aria-label="Add to cart"
           >
             {{ i18n.t().catalog.addToCart }}
