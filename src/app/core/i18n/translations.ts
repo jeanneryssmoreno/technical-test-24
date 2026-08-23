@@ -53,6 +53,8 @@ export const translations = {
       addToCart: 'Agregar',
       addedToCart: 'agregado al carrito',
       youMayAlsoLike: 'También te puede gustar',
+      addToFavorites: 'Agregar a favoritos',
+      inFavorites: 'En favoritos',
       addedToFavorites: 'agregado a favoritos',
       reviews: 'reseñas',
       noSearchResults: 'No encontramos productos para tu búsqueda.'
@@ -189,6 +191,8 @@ export const translations = {
       addToCart: 'Add',
       addedToCart: 'added to cart',
       youMayAlsoLike: 'You May Also Like',
+      addToFavorites: 'Add to favorites',
+      inFavorites: 'In favorites',
       addedToFavorites: 'added to favorites',
       reviews: 'reviews',
       noSearchResults: "We couldn't find any products for your search."
