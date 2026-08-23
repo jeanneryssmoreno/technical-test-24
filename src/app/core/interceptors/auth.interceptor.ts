@@ -13,6 +13,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const i18n = inject(I18nService);
 
   const token = authService.token();
+  const isLoginRequest = req.url.includes('/auth/login');
 
   if (token) {
     req = req.clone({
@@ -24,7 +25,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      if (error.status === 401) {
+      if (error.status === 401 && !isLoginRequest) {
         authService.logout();
         toastService.error(i18n.t().errors.unauthorized);
         router.navigate(['/login']);

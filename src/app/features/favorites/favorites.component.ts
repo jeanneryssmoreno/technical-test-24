@@ -13,7 +13,7 @@ import { Product } from '../../core/models';
   standalone: true,
   imports: [RouterLink, ProductCardComponent, IconComponent],
   template: `
-    <div class="container mx-auto px-4 py-8">
+    <div class="w-full max-w-[1280px] mx-auto px-4 md:px-16 py-8 mb-20 md:mb-0">
       <div class="flex items-center justify-between mb-8">
         <h1 class="text-3xl font-bold text-on-surface">
           {{ i18n.t().favorites.title }}
