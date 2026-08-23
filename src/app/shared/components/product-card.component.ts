@@ -22,14 +22,14 @@ import { FavoritesService } from '../../core/services/favorites.service';
         <button 
           type="button"
           (click)="onFavorite($event)"
-          class="absolute top-2 md:top-3 right-2 md:right-3 p-1.5 md:p-2 bg-surface/90 backdrop-blur-sm rounded-full text-on-surface transition-all duration-300 hover:bg-error hover:text-white z-10"
+          class="hidden md:block absolute top-2 md:top-3 right-2 md:right-3 p-1.5 md:p-2 bg-surface/90 backdrop-blur-sm rounded-full text-on-surface transition-all duration-300 hover:bg-error hover:text-white z-10"
           [class.text-error]="isFavorite()"
           [class.bg-error/10]="isFavorite()"
           aria-label="Toggle favorite"
         >
           <app-icon name="favorite" [size]="18" [fill]="isFavorite()" />
         </button>
-        <div class="absolute bottom-2 md:bottom-3 left-2 md:left-3 right-2 md:right-3">
+        <div class="hidden md:block absolute bottom-2 md:bottom-3 left-2 md:left-3 right-2 md:right-3">
           <button 
             type="button"
             (click)="onAddToCart($event)"

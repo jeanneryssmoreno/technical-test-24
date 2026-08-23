@@ -1,10 +1,11 @@
-import { Component, inject, OnInit, signal, DestroyRef } from '@angular/core';
+import { Component, inject, OnInit, signal, computed, DestroyRef } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CurrencyPipe, NgClass } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { switchMap } from 'rxjs';
 import { ProductService } from '../../core/services/product.service';
 import { CartService } from '../../core/services/cart.service';
+import { FavoritesService } from '../../core/services/favorites.service';
 import { ToastService } from '../../core/services/toast.service';
 import { IconComponent } from '../../shared/components/icon.component';
 import { ProductCardComponent } from '../../shared/components/product-card.component';
@@ -94,6 +95,18 @@ import { Product } from '../../core/models';
                 <span>{{ i18n.t().catalog.addToCart }}</span>
                 <app-icon name="shopping_bag" [size]="18" />
               </button>
+
+              <!-- Favorite Button -->
+              <button 
+                (click)="toggleFavorite()"
+                [ngClass]="isFavorite()
+                  ? 'border-error/40 bg-error/10 text-error'
+                  : 'border-outline-variant/50 text-on-surface-variant hover:border-error hover:text-error'"
+                class="w-full mt-3 border py-3.5 rounded-lg font-bold text-sm uppercase tracking-wider transition-colors flex items-center justify-center gap-2"
+              >
+                <app-icon name="favorite" [size]="18" [fill]="isFavorite()" />
+                <span>{{ isFavorite() ? i18n.t().catalog.inFavorites : i18n.t().catalog.addToFavorites }}</span>
+              </button>
               
               <div class="mt-3 flex items-center justify-center gap-1 text-on-surface-variant text-sm">
                 <app-icon name="local_shipping" [size]="16" />
@@ -150,6 +163,7 @@ export class ProductDetailComponent implements OnInit {
   private router = inject(Router);
   private productService = inject(ProductService);
   private cartService = inject(CartService);
+  private favoritesService = inject(FavoritesService);
   private toastService = inject(ToastService);
   private destroyRef = inject(DestroyRef);
   protected i18n = inject(I18nService);
@@ -157,6 +171,11 @@ export class ProductDetailComponent implements OnInit {
   product = signal<Product | null>(null);
   relatedProducts = signal<Product[]>([]);
   quantity = signal(1);
+
+  isFavorite = computed(() => {
+    const product = this.product();
+    return product ? this.favoritesService.isFavorite(product.id) : false;
+  });
 
   ngOnInit(): void {
     this.route.params
@@ -171,6 +190,7 @@ export class ProductDetailComponent implements OnInit {
         next: (product) => {
           this.product.set(product);
           this.quantity.set(1);
+          this.relatedProducts.set([]);
           this.loadRelatedProducts(product.category);
         },
         error: () => {
@@ -207,6 +227,18 @@ export class ProductDetailComponent implements OnInit {
       this.cartService.addItemWithQuantity(product, this.quantity());
       this.toastService.success(`${product.title} ${this.i18n.t().catalog.addedToCart}`);
       this.quantity.set(1);
+    }
+  }
+
+  toggleFavorite(): void {
+    const product = this.product();
+    if (product) {
+      this.favoritesService.toggle(product);
+      if (this.favoritesService.isFavorite(product.id)) {
+        this.toastService.success(`${product.title} ${this.i18n.t().catalog.addedToFavorites}`);
+      } else {
+        this.toastService.success(`${product.title} ${this.i18n.t().favorites.removedFromFavorites}`);
+      }
     }
   }
 
